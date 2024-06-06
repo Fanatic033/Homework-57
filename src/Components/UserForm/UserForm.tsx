@@ -1,10 +1,11 @@
-import {User,UserMutation} from '../../../types.ts';
+import {User, UserMutation} from '../../../types.ts';
 import React, {useState} from 'react';
 
 interface Props {
   onSubmit: (user: User) => void;
 }
-const UserForm:React.FC<Props> = ({onSubmit}) => {
+
+const UserForm: React.FC<Props> = ({onSubmit}) => {
   const [userMutation, setUserMutation] = useState<UserMutation>(
     {
       name: '',
@@ -12,39 +13,45 @@ const UserForm:React.FC<Props> = ({onSubmit}) => {
       active: false,
       role: '',
     });
-  const formSubmit = (e: React.FormEvent) => {
+  const formSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit({
       id: Math.random().toString(),
       ...userMutation,
-    })
-  }
+    });
+    setUserMutation({
+      name: '',
+      email: '',
+      active: false,
+      role: '',
+    });
+  };
 
   const changeUser = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setUserMutation(prevState => ({...prevState, [e.target.name]: e.target.value}))
-  }
+    setUserMutation(prevState => ({...prevState, [e.target.name]: e.target.value}));
+  };
   return (
-    <form>
+    <form onSubmit={formSubmit}>
       <h5>Add User</h5>
       <div className="form-group mb-3">
-        <label htmlFor="username">Username</label>
+        <label htmlFor="name">Username</label>
         <input
           required
           type="text"
-          name="username"
-          id="username"
+          name="name"
+          id="name"
           className="form-control"
           onChange={changeUser}
           value={userMutation.name}
         />
       </div>
       <div className="form-group mb-3">
-        <label htmlFor="mail">Mail</label>
+        <label htmlFor="email">Mail</label>
         <input
           required
           type="text"
-          name="mail"
-          id="mail"
+          name="email"
+          id="email"
           className="form-control"
           onChange={changeUser}
           value={userMutation.email}
@@ -54,13 +61,18 @@ const UserForm:React.FC<Props> = ({onSubmit}) => {
         <label className="form-check-label" htmlFor="check">Active</label>
         <input type="checkbox" className="form-check-input" id="check"/>
       </div>
-      <select className="form-select">
-        <option selected>Выбрать роль</option>
+      <select className="form-select"
+              required
+              name="role"
+              id="role"
+              onChange={changeUser}
+              value={userMutation.role}
+      >
         <option value="1">Пользователь</option>
         <option value="2">Редактор</option>
         <option value="3">Администратор</option>
       </select>
-      <button type="submit" onSubmit={formSubmit}>Submit</button>
+      <button type="submit">Submit</button>
     </form>
   );
 };

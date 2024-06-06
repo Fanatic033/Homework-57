@@ -5,7 +5,21 @@ import {useState} from 'react';
 import {User} from '../types.ts';
 
 function App() {
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>([
+    {
+      id: '1',
+      name : ' ilzat',
+      email: 'izladsa',
+      role : '',
+      active : false,
+    },{
+      id: '1',
+      name : ' ilzat',
+      email: 'izladsa',
+      role : '',
+      active : false,
+    },
+  ]);
   const AddUser = (user: User) => {
     setUsers(prevState => [...prevState, user]);
   }

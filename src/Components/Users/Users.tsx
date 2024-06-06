@@ -9,7 +9,7 @@ const Users:React.FC<Props> = ({users}) => {
     <>
       <h3>Users</h3>
       {users.map(user => (
-        <UserItem key={user.id}/>
+        <UserItem key={user.id} user={user}/>
       ))}
     </>
   );
